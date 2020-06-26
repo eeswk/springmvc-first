@@ -63,5 +63,14 @@
         </jsp-property-group>
     </jsp-config>
 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/error/systemError.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/WEB-INF/error/ioError.jsp</location>
+    </error-page>
 
 </web-app>
