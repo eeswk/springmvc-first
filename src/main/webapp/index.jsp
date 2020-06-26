@@ -9,6 +9,8 @@
     <ul>
         <li><a href="<c:url value='/echo'/>">에코 애플리케이션</a></li>
         <li><a href="<c:url value='/account'/>">계정 애플리케이션</a></li>
+        <li><a href="<c:url value='/springForm'/>">스프링 폼 애플리케이션</a></li>
+
     </ul>
 
 </body>
