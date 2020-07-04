@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @CrossOrigin
 @RestController
@@ -34,7 +35,8 @@ public class BooksRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> createBook(
-            @Validated @RequestBody BookResource newResource) {
+            @Validated @RequestBody BookResource newResource,
+            UriComponentsBuilder uriBuilder) {
 
         Book newBook = new Book();
         newBook.setName(newResource.getName());
@@ -42,8 +44,13 @@ public class BooksRestController {
 
         Book createBook = bookService.create(newBook);
 
-        String resourceUri = "http://localhost:8088/books/" + createBook.getBookId();
-        return ResponseEntity.created(URI.create(resourceUri)).build();
+//        String resourceUri = "http://localhost:8088/books/" + createBook.getBookId();
+//        return ResponseEntity.created(URI.create(resourceUri)).build();
+        URI resourceUri = uriBuilder.path("books/{bookId}")
+                .buildAndExpand(createBook.getBookId())
+                .encode()
+                .toUri();
+        return ResponseEntity.created(resourceUri).build();
     }
 
     @RequestMapping(path = "{bookId}", method = RequestMethod.PUT)
