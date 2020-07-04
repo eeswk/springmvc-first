@@ -13,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @CrossOrigin
 @RestController
@@ -46,10 +49,15 @@ public class BooksRestController {
 
 //        String resourceUri = "http://localhost:8088/books/" + createBook.getBookId();
 //        return ResponseEntity.created(URI.create(resourceUri)).build();
-        URI resourceUri = uriBuilder.path("books/{bookId}")
-                .buildAndExpand(createBook.getBookId())
-                .encode()
-                .toUri();
+//        URI resourceUri = uriBuilder.path("books/{bookId}")
+//                .buildAndExpand(createBook.getBookId())
+//                .encode()
+//                .toUri();
+        URI resourceUri = MvcUriComponentsBuilder.relativeTo(uriBuilder)
+                .withMethodCall(on(BooksRestController.class)
+                .getBook(createBook.getBookId()))
+                .build().encode().toUri();
+
         return ResponseEntity.created(resourceUri).build();
     }
 
