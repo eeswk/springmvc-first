@@ -1,5 +1,7 @@
 package ee.swan.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import java.util.List;
 import java.util.Map;
 import org.springframework.context.MessageSource;
@@ -62,5 +64,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**");
+    }
+
+    @Bean
+    ObjectMapper objectMapper() {
+        return Jackson2ObjectMapperBuilder.json()
+                //옵션을 지정
+                .indentOutput(true)
+                .dateFormat(new StdDateFormat())
+                .build();
     }
 }
