@@ -26,13 +26,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ApiError apiError = createApiError(ex);
+        ApiError apiError = createApiError(ex, ex.getMessage());
         return super.handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
-    private ApiError createApiError(Exception ex) {
+    private ApiError createApiError(Exception ex, String defaultMessage) {
         ApiError apiError = new ApiError();
-        apiError.setMessage(resolveMessage(ex, ex.getMessage()));
+        apiError.setMessage(resolveMessage(ex, defaultMessage));
         apiError.setDocumentationUrl("http://localhost:8080/api/errors");
         return apiError;
     }
@@ -46,6 +46,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handleBookNotFoundException(BookResourceNotFoundException ex, WebRequest request) {
         return handleExceptionInternal(ex, null, null, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleSystemException(Exception ex, WebRequest request) {
+        ApiError apiError = createApiError(ex, "System error is occurred");
+        return super.handleExceptionInternal(ex, apiError, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
 }
