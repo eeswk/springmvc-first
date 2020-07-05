@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class BookResource implements Serializable {
     private static final long serialVersionUID = 1951547807513378639L;
 
     private String bookId;
+    @NotNull
+    @NotEmpty
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd") // ISO 8061 확장 형식
     private LocalDate publishedDate;
