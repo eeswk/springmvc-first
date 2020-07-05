@@ -81,5 +81,15 @@
         <exception-type>java.io.IOException</exception-type>
         <location>/WEB-INF/error/ioError.jsp</location>
     </error-page>
+    <!-- 예외 클래스 지정 및 옿류 처리 정의 -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error</location>
+    </error-page>
+    <!-- HTTP 상태 코드 지정 및 오류 처리 정의 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
 
 </web-app>
