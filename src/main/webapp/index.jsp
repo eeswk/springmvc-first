@@ -14,6 +14,7 @@
         <li><a href="<c:url value='/cart'/>">상품등록</a></li>
         <li><a href="<c:url value='/cart/list'/>">장바구니리스트</a></li>
         <li><a href="<c:url value='/order'/>">주문정보</a></li>
+        <li><a href="<c:url value='/async/greeting'/>">비동기 처리</a></li>
 
     </ul>
 

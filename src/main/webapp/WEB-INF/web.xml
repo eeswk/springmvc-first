@@ -30,6 +30,7 @@
             <param-value>ee.swan.config.WebMvcConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
         <multipart-config>
             <max-file-size>5242880</max-file-size>
             <max-request-size>2726976</max-request-size>
@@ -46,6 +47,7 @@
         <filter-class>
             org.springframework.web.filter.CharacterEncodingFilter
         </filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -58,6 +60,8 @@
     <filter-mapping>
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
     </filter-mapping>
 
     <filter>
