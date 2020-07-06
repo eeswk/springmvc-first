@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class BookRestTemplateController {
@@ -66,6 +67,27 @@ public class BookRestTemplateController {
         responseHeaders.entrySet().stream().forEach(e -> {
             System.out.println("key: " + e.getKey()+ ", value: " + e.getValue());
         });
+
+    }
+
+
+    @RequestMapping("test/books/uriTemplate")
+    public void uriTemplate() {
+        String bookid = "9791158390747";
+
+        BookResource bookResource = restOperations.getForObject(
+                "http://localhost:8088/books/{bookId}",
+                BookResource.class, bookid
+        );
+
+        RequestEntity<Void> requestEntity = RequestEntity
+                .get(UriComponentsBuilder
+                        .fromUriString("http://localhost:8088/books/{bookId}")
+                        .buildAndExpand(bookid)
+                        .encode()
+                        .toUri())
+                .header("X-Track-Id", UUID.randomUUID().toString()).build();
+
 
     }
 
