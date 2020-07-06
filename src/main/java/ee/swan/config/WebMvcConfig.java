@@ -3,24 +3,29 @@ package ee.swan.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import ee.swan.controller.Cart;
+import ee.swan.exception.CustomCallableProcessingInterceptor;
+import ee.swan.exception.CustomDeferredResultProcessingInterceptor;
 import java.util.List;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
+@EnableAsync
 @ComponentScan("ee.swan")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
@@ -94,8 +99,22 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return new StandardServletMultipartResolver();
     }
 
+
+    @Bean
+    public AsyncTaskExecutor mvcTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(10);
+        executor.setQueueCapacity(25);
+        return executor;
+    }
+
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         configurer.setDefaultTimeout(5000);
+        configurer.setTaskExecutor(mvcTaskExecutor());
+
+        configurer.registerCallableInterceptors(new CustomCallableProcessingInterceptor());
+        configurer.registerDeferredResultInterceptors(new CustomDeferredResultProcessingInterceptor());
     }
 }
