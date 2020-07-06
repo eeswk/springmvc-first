@@ -2,12 +2,10 @@ package ee.swan.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import ee.swan.controller.Cart;
 import java.util.List;
-import java.util.Map;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -84,4 +82,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         requestFactory.setReadTimeout(3000);
         return new RestTemplate(requestFactory);
     }
+
+    @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public Cart cart() {
+        return new Cart();
+    }
+
 }
