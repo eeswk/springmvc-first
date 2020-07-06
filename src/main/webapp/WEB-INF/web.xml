@@ -73,6 +73,20 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>clientInfoPutFilter</filter-name>
+<!--        <filter-class>ee.swan.filter.ClientInfoMdcPutFilter</filter-class>-->
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>mdcKey</param-name>
+            <param-value>remoteIp</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>clientInfoPutFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
