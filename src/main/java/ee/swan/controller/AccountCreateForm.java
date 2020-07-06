@@ -7,6 +7,15 @@ public class AccountCreateForm implements Serializable {
 
     private String type;
     private String cardNo;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getType() {
         return type;
