@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,6 +14,7 @@
         <form:radiobutton path="type" value="2"/>유료회원
         카드번호 : <form:input path="cardNo" />
         <form:errors path="cardNo" />
+        <spring:message code="title.home" />
     </div>
         <form:button name="confirm">전송</form:button>
     </div>

@@ -15,7 +15,8 @@
         <li><a href="<c:url value='/cart/list'/>">장바구니리스트</a></li>
         <li><a href="<c:url value='/order'/>">주문정보</a></li>
         <li><a href="<c:url value='/async/greeting'/>">비동기 처리</a></li>
-
+        <li><a href="/changeLanguage?locale=en">English</a></li>
+        <li><a href="/changeLanguage?locale=ko">Korea</a></li>
     </ul>
 
 </body>

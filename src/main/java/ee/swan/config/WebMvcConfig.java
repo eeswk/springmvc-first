@@ -8,6 +8,7 @@ import ee.swan.exception.CustomDeferredResultProcessingInterceptor;
 import ee.swan.interceptor.SuccessLoggingInterceptor;
 import ee.swan.resolver.CommonRequestDataMethodResolver;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -26,7 +27,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 @Configuration
@@ -126,9 +130,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SuccessLoggingInterceptor())
+        registry.addInterceptor(new LocaleChangeInterceptor())
                 .addPathPatterns("/**") // 적용대상 경로를 지정
-                .excludePathPatterns("/resources/**"); //제외 경로지정
+                .excludePathPatterns("/resources/**") //제외 경로지정
+                .excludePathPatterns("/**/*.html");
+
     }
 
     @Override
@@ -150,8 +156,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 //.setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS).cachePublic());
                 //.setCachePeriod(604800); //유효기간을 초 단위로 지정(604800=7일)
     }
-
-
-
 
 }
