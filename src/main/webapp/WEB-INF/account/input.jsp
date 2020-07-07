@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link herf="<c:url value='/static/css/app.css'/>"	 type="text/css" rel="stylesheet" />
 </head>
 <body>
     <h2>계정생성화면</h2>

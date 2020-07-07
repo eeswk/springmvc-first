@@ -8,10 +8,12 @@ import ee.swan.exception.CustomDeferredResultProcessingInterceptor;
 import ee.swan.interceptor.SuccessLoggingInterceptor;
 import ee.swan.resolver.CommonRequestDataMethodResolver;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -25,6 +27,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 @Configuration
 @EnableWebMvc
@@ -141,6 +144,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("classpath:/static/")
+                .resourceChain(true)
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+                //.setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS).cachePublic());
+                //.setCachePeriod(604800); //유효기간을 초 단위로 지정(604800=7일)
     }
+
+
+
+
 }

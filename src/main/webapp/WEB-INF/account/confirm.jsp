@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link herf="<c:url value='/static/css/app.css'/>"	 type="text/css" rel="stylesheet" />
 </head>
 <body>
     <h2>계정등록완료</h2>
