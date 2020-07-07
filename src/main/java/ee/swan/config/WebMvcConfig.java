@@ -6,6 +6,7 @@ import ee.swan.controller.Cart;
 import ee.swan.exception.CustomCallableProcessingInterceptor;
 import ee.swan.exception.CustomDeferredResultProcessingInterceptor;
 import ee.swan.interceptor.SuccessLoggingInterceptor;
+import ee.swan.resolver.CommonRequestDataMethodResolver;
 import java.util.List;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -20,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -124,5 +126,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new SuccessLoggingInterceptor())
                 .addPathPatterns("/**") // 적용대상 경로를 지정
                 .excludePathPatterns("/resources/**"); //제외 경로지정
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new CommonRequestDataMethodResolver());
     }
 }
