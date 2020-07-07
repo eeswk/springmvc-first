@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import ee.swan.controller.Cart;
 import ee.swan.exception.CustomCallableProcessingInterceptor;
 import ee.swan.exception.CustomDeferredResultProcessingInterceptor;
+import ee.swan.interceptor.SuccessLoggingInterceptor;
 import java.util.List;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -116,5 +117,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
         configurer.registerCallableInterceptors(new CustomCallableProcessingInterceptor());
         configurer.registerDeferredResultInterceptors(new CustomDeferredResultProcessingInterceptor());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SuccessLoggingInterceptor())
+                .addPathPatterns("/**") // 적용대상 경로를 지정
+                .excludePathPatterns("/resources/**"); //제외 경로지정
     }
 }
