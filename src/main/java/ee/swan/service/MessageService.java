@@ -10,8 +10,11 @@ public class MessageService {
     @Autowired
     MessageSource messageSource;
 
-    public String getMessage(String code) {
+    public String getMessage() {
+        return "Hello!";
+    }
+
+    public String getMessageByCode(String code) {
         return messageSource.getMessage(code, null, Locale.getDefault());
-//        return "Hello!";
     }
 }
