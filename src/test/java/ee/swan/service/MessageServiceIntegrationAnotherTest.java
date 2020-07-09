@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,6 +40,7 @@ public class MessageServiceIntegrationAnotherTest {
     MessageService messageService;
 
     @Test
+    @DirtiesContext
     public void testGetMessageByCode() {
         String actualMessage = messageService.getMessageByCode("greeting");
         assertThat(actualMessage, is("Hello!!"));
