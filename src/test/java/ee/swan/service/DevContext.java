@@ -13,6 +13,7 @@ public class DevContext {
 
     @Bean
     public DataSource dataSource() {
+        System.out.println("dev = h2");
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
     }
 }

@@ -13,6 +13,7 @@ public class DefaultContext {
 
     @Bean
     DataSource dataSource() throws NamingException {
+        System.out.println("defalut = jndiTemplate");
         JndiTemplate jndiTemplate = new JndiTemplate();
         return jndiTemplate.lookup("jdbc/dataSource", DataSource.class);
     }
