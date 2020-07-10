@@ -3,22 +3,27 @@ package ee.swan.service;
 import ee.swan.api.domain.Account;
 import ee.swan.config.AppConfig;
 import ee.swan.config.TestConfig;
+import ee.swan.config.TransactionManagerConfig;
 import ee.swan.repository.AccountRepository;
+import java.lang.annotation.Target;
 import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AppConfig.class, TestConfig.class})
+@ContextConfiguration(classes = {AppConfig.class, TestConfig.class, TransactionManagerConfig.class})
 @Sql("/account-delete.sql")
 public class AccountRepositoryTest {
 
@@ -46,6 +51,13 @@ public class AccountRepositoryTest {
 
 
     }
+
+    @Test
+    public void testFind() {
+        Account account = accountRepository.findOne("001");
+        System.out.println("selected=>" + account.getId());
+    }
+
 
     // 메서드에 지정한 account-delete.sql과  account-insert-data.sql이 실행된다.
     // 데이터를 지운 후에 데이터를 등록하고 테스트가 실행된다.
