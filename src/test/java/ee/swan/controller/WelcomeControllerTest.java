@@ -2,8 +2,12 @@ package ee.swan.controller;
 
 import ee.swan.config.AppConfig;
 import ee.swan.config.WebMvcConfig;
+import ee.swan.service.MessageService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -26,9 +30,16 @@ import static org.junit.Assert.*;
 public class WelcomeControllerTest {
     MockMvc mockMvc;
 
+    @InjectMocks
+    MessageController controller;
+
+    @Mock
+    MessageService messageService;
+
     @Before
     public void setupMockMvc() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new WelcomeController()).build();
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
 /*
