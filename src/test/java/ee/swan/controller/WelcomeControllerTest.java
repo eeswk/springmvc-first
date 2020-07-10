@@ -15,15 +15,23 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.*;
-
+/*
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy({
         @ContextConfiguration(classes = AppConfig.class),
         @ContextConfiguration(classes = WebMvcConfig.class)
 })
 @WebAppConfiguration
+ */
 public class WelcomeControllerTest {
+    MockMvc mockMvc;
 
+    @Before
+    public void setupMockMvc() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new WelcomeController()).build();
+    }
+
+/*
     @Autowired
     WebApplicationContext context;
 
@@ -33,5 +41,7 @@ public class WelcomeControllerTest {
     public void setupMockMvc() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
+
+ */
 
 }
