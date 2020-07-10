@@ -13,7 +13,9 @@ public class TestConfig {
     @Bean
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-                .setScriptEncoding("UTF-8").addScript("schema.sql").build();
+                .setScriptEncoding("UTF-8")
+                //.addScript("schema.sql")
+                .build();
     }
 
     @Bean
