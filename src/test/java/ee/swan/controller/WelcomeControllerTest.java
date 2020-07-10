@@ -79,6 +79,13 @@ public class WelcomeControllerTest {
                                 containsString("9791158390747")));
     }
 
+    @Test
+    public void testBooksWithLog() throws Exception {
+        mockMvc.perform(get("/books"))
+                .andExpect(status().isOk())
+                .andDo(log());
+    }
+
 
 
 
