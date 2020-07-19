@@ -20,6 +20,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableTransactionManagement
 public class JpaConfig {
 
     @Autowired
@@ -40,6 +41,13 @@ public class JpaConfig {
         factory.setPackagesToScan("ee.swan.domain");
         factory.setJpaVendorAdapter(jpaVendorAdapter());
         return factory;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
+        return jpaTransactionManager;
     }
 
 /*
@@ -70,14 +78,7 @@ public class JpaConfig {
         return entityManager().getTransaction();
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager tm = new JpaTransactionManager();
-        tm.setEntityManagerFactory(entityManagerFactory());
-        //tm.setDataSource(dataSource);
-        //System.out.println("궁금=>"+tm.getDataSource());
-        return tm;
-    }
+
 */
 /*
     @Bean
