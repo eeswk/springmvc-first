@@ -3,6 +3,7 @@ package ee.swan.service;
 import ee.swan.config.JpaConfig;
 import ee.swan.domain.Room;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Locale;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -62,6 +63,12 @@ public class RoomServiceImplTest {
         assertThat(resultRoom.getCapacity(), is(mockRoom.getCapacity()));
     }
 
+    @Test
+    public void testGetRoomByName() {
+        String roomName = "Room A";
+        List<Room> room = roomService.getRoomsByFetch(roomName);
+        System.out.println(room.size());
+    }
 
 
 }

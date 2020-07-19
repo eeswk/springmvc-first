@@ -2,6 +2,7 @@ package ee.swan.service;
 
 import ee.swan.config.JpaConfig;
 import ee.swan.domain.Room;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.Before;
@@ -50,4 +51,5 @@ public class RoomServiceTest {
         System.out.println("room=>" + room.getRoomName());
         assertThat(room.getRoomName(), is(mockRoom.getRoomName()));
     }
+
 }

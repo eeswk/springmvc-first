@@ -1,9 +1,8 @@
 package ee.swan.service;
 
 import ee.swan.domain.Room;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import java.util.List;
+import javax.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -53,5 +52,22 @@ public class RoomServiceImpl implements RoomService {
         entityManager.remove(room);
     }
 
+    @Transactional(readOnly = true)
+    public List<Room> getRoomsByFetch(String roomName) {
+        String jpql = "SELECT DISTINCT r FROM Room r "
+                + " LEFT JOIN FETCH r.equipments "
+                + " WHERE r.roomName = :roomName";
+        TypedQuery<Room> query = entityManager.createQuery(jpql, Room.class);
+        query.setParameter("roomName", roomName);
+        return query.getResultList();
+    }
+
+    @Transactional
+    public Integer updateCapacityAll(Integer capacity) {
+        String jpql = "UPDATE Room r SET r.capacity = :capacity";
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("capacity", capacity);
+        return query.executeUpdate();
+    }
 
 }
