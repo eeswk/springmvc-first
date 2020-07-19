@@ -70,4 +70,26 @@ public class RoomServiceImpl implements RoomService {
         return query.executeUpdate();
     }
 
+    @Transactional
+    public void updateRoomWithOptimisticLock(Integer id, String roomName, Integer capacity) {
+        Room room = entityManager.find(Room.class, id);
+        entityManager.lock(room, LockModeType.OPTIMISTIC);
+        //갱신 처리생략
+        // 낙관적 잠금이 실패한 경우 트랜잭션이 종료되는 시점에 OptimisticLockException이 발생한다.
+    }
+
+    @Transactional
+    public void updateRoomWithPessimisticLock(Integer id, String roomName, Integer capacity) {
+        Room room = entityManager.find(Room.class, id);
+        try {
+            entityManager.lock(room, LockModeType.PESSIMISTIC_READ);
+        } catch (PessimisticLockException e) {
+            //락을 거는 과정에서 실패한경우
+            //생략
+        } catch (LockTimeoutException e) {
+            // 락을 거는 과정에서 시간이 초과한 경우(트랜잭션 자체는 롤백되지 않음)
+        }
+        //갱신처리(생략
+    }
+
 }
