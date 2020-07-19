@@ -13,17 +13,36 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
 public class JpaConfig {
-/*
+
     @Autowired
     DataSource dataSource;
 
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setDatabase(Database.H2);
+        vendorAdapter.setShowSql(true);
+        return vendorAdapter;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setPackagesToScan("ee.swan.domain");
+        factory.setJpaVendorAdapter(jpaVendorAdapter());
+        return factory;
+    }
+
+/*
     @Bean
     public DataSource dataSource() throws NamingException {
         //JndiTemplate jndiTemplate = new JndiTemplate();
@@ -33,25 +52,9 @@ public class JpaConfig {
                 //.addScript("schema.sql")
                 .build();
     }
- */
-    /*
-        @Bean
-        public JpaVendorAdapter jpaVendorAdapter() {
-            HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-            vendorAdapter.setDatabase(Database.H2);
-            vendorAdapter.setShowSql(true);
-            return vendorAdapter;
-        }
+*/
 
-        @Bean
-        public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(DataSource dataSource) {
-            LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-            factory.setDataSource(dataSource);
-            factory.setPackagesToScan("ee.swan.domain");
-            factory.setJpaVendorAdapter(jpaVendorAdapter());
-            return factory;
-        }
-    */
+/*
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         return Persistence.createEntityManagerFactory("jpabook");
@@ -75,7 +78,7 @@ public class JpaConfig {
         //System.out.println("궁금=>"+tm.getDataSource());
         return tm;
     }
-
+*/
 /*
     @Bean
     public Server h2TcpServer() throws SQLException {
