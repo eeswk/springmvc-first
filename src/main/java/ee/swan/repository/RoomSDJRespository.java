@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface RoomSDJRespository extends JpaRepository<Room, Integer> {
+public interface RoomSDJRespository extends JpaRepository<Room, Integer>, RoomRepositoryCustom {
 
     @Query("SELECT r FROM Room r WHERE r.roomName = :roomName")
     List<Room> findByRoomName(@Param("roomName") String roomName);
