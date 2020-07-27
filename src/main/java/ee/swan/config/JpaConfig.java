@@ -1,17 +1,14 @@
 package ee.swan.config;
 
-import javax.naming.NamingException;
-import javax.persistence.EntityManager;
+import ee.swan.domain.OsUserAuditorAwre;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -23,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("ee.swan.repository")
+@EnableJpaAuditing // AuditorAwre 타입의 빈을 검출한다.
 public class JpaConfig {
 
     @Autowired
@@ -50,6 +48,11 @@ public class JpaConfig {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         return jpaTransactionManager;
+    }
+
+    @Bean
+    public AuditorAware<String> auditorAware() {
+        return new OsUserAuditorAwre();
     }
 
 /*
